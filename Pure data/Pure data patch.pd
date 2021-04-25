@@ -1,0 +1,179 @@
+#N canvas -8 -8 1282 634 12;
+#X obj 430 -70 cnv 15 385 331 empty empty Controle\ volume\ sonore
+19 13 0 14 #e0e0e0 #404040 0;
+#X obj 20 -60 cnv 15 393 186 empty empty Controle\ data\ arduino 20
+12 0 14 #e0e0e0 #404040 0;
+#X obj 20 140 cnv 15 271 484 empty empty Wah\ wah 20 12 0 14 #e0e0e0
+#404040 0;
+#X obj 330 380 cnv 15 307 246 empty empty Ring\ modulator 20 12 0 14
+#e0e0e0 #404040 0;
+#X obj 670 380 cnv 15 307 246 empty empty Wahmi\ (pitch\ shifter) 20
+12 0 14 #e0e0e0 #404040 0;
+#X obj 80 380 mtof~;
+#X obj 80 420 +~;
+#X obj 60 240 hsl 100 15 50 100 0 0 empty empty empty -2 -8 0 10 #fcfcfc
+#000000 #000000 1800 1;
+#X obj 140 490 vcf~ 220 1;
+#X floatatom 210 430 5 0 0 0 - - -, f 5;
+#X obj 140 540 *~ 3;
+#X obj 60 340 line~;
+#X msg 60 300 \$1 100;
+#X obj 1160 90 adc~;
+#X obj 50 180 * 1.7;
+#X floatatom 60 270 5 0 0 0 - - -, f 5;
+#X obj 60 210 + 40;
+#X obj 770 500 shifter;
+#X obj 830 440 hsl 100 15 -12 12 0 0 empty empty empty -2 -8 0 10 #fcfcfc
+#000000 #000000 7200 1;
+#X obj 150 -20 hradio 15 1 0 8 empty empty PORT/COM 0 -8 0 10 #fcfcfc
+#000000 #000000 0;
+#X obj 145 42 comport 1 9600;
+#X msg 70 -20 devices;
+#X msg 70 21 close;
+#X msg 150 0 open \$1;
+#X obj 210 90 print;
+#X obj 870 160 spigot~;
+#X obj 1000 160 spigot~;
+#X obj 910 -20 tgl 28 0 empty empty Wahwah 29 9 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 1000 -20 tgl 24 0 empty empty Pitch\ shifter\ (wahmi) 27 9 0
+10 #fcfcfc #000000 #000000 0 1;
+#X obj 411 520 *~;
+#X obj 493 477 osc~ 1;
+#X floatatom 490 450 5 0 0 0 - - -, f 5;
+#X obj 1120 160 spigot~;
+#X obj 1160 -10 tgl 21 0 empty empty Ring\ modulator 22 7 0 10 #fcfcfc
+#000000 #000000 0 1;
+#X obj 130 90 send data;
+#X obj 140 150 receive data;
+#X obj 610 80 pvu~;
+#X obj 610 120 vu 15 120 empty empty -1 -8 0 10 #404040 #000000 1 0
+;
+#X obj 560 80 dac~;
+#X obj 610 40 *~ 0.8;
+#X floatatom 668 11 5 0 0 0 - - -, f 5;
+#X obj 670 -30 hsl 100 15 0 10 0 0 empty empty empty -2 -8 0 10 #fcfcfc
+#000000 #000000 1600 1;
+#X obj 560 -20 catch~ audio, f 13;
+#X obj 400 580 throw~ audio;
+#X obj 770 550 throw~ audio;
+#X obj 140 580 throw~ audio;
+#X obj 860 190 send~ wahwah;
+#X obj 30 460 receive~ wahwah;
+#X obj 1000 190 send~ wahmi;
+#X obj 1110 190 send~ ring;
+#X obj 380 420 receive~ ring;
+#X obj 830 410 receive data;
+#X obj 500 400 receive data;
+#X obj 710 440 receive~ wahmi;
+#X obj 1230 160 spigot~;
+#X obj 1320 160 spigot~;
+#X obj 1430 160 spigot~;
+#X obj 1220 190 send~ delay;
+#X obj 1230 10 tgl 21 0 empty empty Delay 22 7 0 10 #fcfcfc #000000
+#000000 1 1;
+#X obj 1330 0 tgl 21 0 empty empty Looper 21 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 1430 10 tgl 21 0 empty empty Normal 22 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 1016 382 cnv 15 307 246 empty empty Delay 20 12 0 14 #e0e0e0
+#404040 0;
+#X floatatom 1200 430 5 0 0 0 - - -, f 5;
+#X obj 1086 582 throw~ audio;
+#X obj 1186 402 receive data;
+#X obj 1050 420 receive~ delay;
+#X obj 1090 460 delwrite~ delaysignal 500;
+#X obj 1160 500 *~ 0.6;
+#X obj 1110 530 delread~ delaysignal;
+#X obj 1320 190 send~ looper;
+#X obj 1350 380 cnv 15 307 246 empty empty Looper 31 6 0 14 #e0e0e0
+#404040 0;
+#X floatatom 1574 418 5 0 0 0 - - -, f 5;
+#X obj 1410 580 throw~ audio;
+#X obj 1560 390 receive data;
+#X obj 1370 420 receive~ looper;
+#X obj 1410 510 looper;
+#X obj 1440 450 tgl 15 0 empty empty Record 27 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 1460 470 bng 15 250 50 0 empty empty Tempo 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 1510 450 bng 15 250 50 0 empty empty Clear 19 5 0 10 #fcfcfc
+#000000 #000000;
+#X obj 1320 219 send looperon;
+#X obj 1510 490 receive looperon;
+#X obj 1420 190 send~ normal;
+#X obj 330 280 cnv 15 307 88 empty empty Normal 17 35 0 14 #e0e0e0
+#404040 0;
+#X floatatom 530 330 5 0 0 0 - - -, f 5;
+#X obj 420 330 throw~ audio;
+#X obj 530 290 receive data;
+#X obj 420 290 receive~ normal;
+#X connect 5 0 6 0;
+#X connect 6 0 8 1;
+#X connect 7 0 15 0;
+#X connect 8 0 10 0;
+#X connect 9 0 8 2;
+#X connect 10 0 45 0;
+#X connect 11 0 5 0;
+#X connect 12 0 11 0;
+#X connect 13 0 25 0;
+#X connect 13 0 26 0;
+#X connect 13 0 32 0;
+#X connect 13 0 54 0;
+#X connect 13 0 55 0;
+#X connect 13 0 56 0;
+#X connect 14 0 16 0;
+#X connect 15 0 12 0;
+#X connect 16 0 7 0;
+#X connect 17 0 44 0;
+#X connect 18 0 17 1;
+#X connect 19 0 23 0;
+#X connect 20 0 34 0;
+#X connect 20 1 24 0;
+#X connect 21 0 20 0;
+#X connect 22 0 20 0;
+#X connect 23 0 20 0;
+#X connect 25 1 46 0;
+#X connect 26 1 48 0;
+#X connect 27 0 25 1;
+#X connect 28 0 26 1;
+#X connect 29 0 43 0;
+#X connect 30 0 29 1;
+#X connect 31 0 30 0;
+#X connect 32 1 49 0;
+#X connect 33 0 32 1;
+#X connect 35 0 14 0;
+#X connect 36 0 37 0;
+#X connect 39 0 36 0;
+#X connect 39 0 38 0;
+#X connect 39 0 38 1;
+#X connect 40 0 39 1;
+#X connect 41 0 40 0;
+#X connect 42 0 39 0;
+#X connect 47 0 8 0;
+#X connect 50 0 29 0;
+#X connect 51 0 18 0;
+#X connect 52 0 31 0;
+#X connect 53 0 17 0;
+#X connect 54 1 57 0;
+#X connect 55 1 69 0;
+#X connect 56 1 81 0;
+#X connect 58 0 54 1;
+#X connect 59 0 55 1;
+#X connect 59 0 79 0;
+#X connect 60 0 56 1;
+#X connect 62 0 68 0;
+#X connect 64 0 62 0;
+#X connect 65 0 66 0;
+#X connect 67 0 66 0;
+#X connect 68 0 63 0;
+#X connect 68 0 67 0;
+#X connect 73 0 71 0;
+#X connect 74 0 75 0;
+#X connect 75 0 72 0;
+#X connect 76 0 75 1;
+#X connect 77 0 75 2;
+#X connect 78 0 75 3;
+#X connect 80 0 75 4;
+#X connect 85 0 83 0;
+#X connect 86 0 84 0;
